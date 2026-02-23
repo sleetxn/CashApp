@@ -1,0 +1,21 @@
+workflows:
+  cashapp-ios:
+    name: CashApp iOS 18 + iPhone 16
+    max_build_duration: 90
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      ios_signing:
+        distribution_type: ad_hoc
+        bundle_identifier: com.culturally.CashApp
+    scripts:
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Build signed ipa
+        script: |
+          xcode-project build-ipa \
+            --project "Cash App.xcodeproj" \
+            --scheme "Cash AppSpoof" \
+            --configuration Release
+    artifacts:
+      - build/ios/ipa/*.ipa
